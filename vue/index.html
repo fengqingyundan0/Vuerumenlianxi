@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue.js</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- 必须引用下面的js文件，可以去vue中文官网查看 https://cn.vuejs.org -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<!-- vue-app是根容器 -->
+	<div id="vue-app">
+		<h1>{{greet('afternoon')}}</h1>
+		<!-- v-bind是属性绑定 v-html是绑定的js中标签的html内容 -->
+		<a v-bind:href="baidu">baiDu</a>
+		<p v-html="baidus"></p>
+		<h1> 双向数据绑定 /input / select / textarea </h1>
+		<label>姓名：</label>
+		<!-- v-on:keyup可以用v-model代替v-model是vue中自带的属性更加方便快捷 -->
+		<input ref="name" type="text" v-model="name">
+		<span>{{name}}</span>
+		<label>年龄：</label>
+		<!-- keyup是键盘事件，输入什么随时显示你输入的内容哪怕你输入的是空格后面加上.enter代表按下回车键才能出发对应的事件 -->
+		<input ref="age" type="text" @keyup.enter="logAge">
+		<span>{{age}}</span><br>
+		<!-- once表示只能一次 -->
+		<!-- v-on等同于@ -->
+		<button @click.once="add(10)">长十岁</button>
+		<button v-on:click="subtract(10)">减十岁</button>
+		<p>My age is {{ age }}</p>
+		<!-- stop是阻止冒泡事件 -->
+		<div id="canvas" v-on:mousemove="updateXY">
+			{{x}},{{y}} - <span @mousemove.stop=""> Stop Moving</span>
+		</div>
+		<!-- prevent是阻止默认事件 -->
+		<a @click.prevent="alert()" href="https://www.baidu.com">The baiDu</a><br>
+		<h1>Computed 计算属性</h1>
+		<button @click="a++">Add to A</button>
+		<button @click="b++">Add to B</button>
+		<p>A - {{a}}</p>
+		<p>Age + A = {{addToA}}</p>
+		<p>B - {{b}}</p>
+		<p>Age + B = {{addToB}}</p>
+		<h1> 动态绑定css样式 </h1>
+		<h2>示例 1</h2>
+		<!-- 前面的changeColor是class名字冒号后面的是app.js绑定的 -->
+		<div @click="changeColor=!changeColor" v-bind:class="{changeColor:changeColor}">
+			<span>Henry</span>
+		</div>
+		<h2>示例 2</h2>
+		<!-- 改变颜色 -->
+		<button @click="changeColor = !changeColor">change color</button>
+		<!-- 改变长度 -->
+		<button @click="changeLength = !changeLength">change length</button>
+		<!-- 将button中changeColor和changeLength都为真时就会添加到下面的div中也就是下面的span样式会改变 -->
+		<div v-bind:class="compClasses">
+			<span>Henry</span>
+		</div>
+		<h1> v-if条件</h1>
+		<button @click="error = ! error">Toggle Error</button>
+		<button @click="success = ! success">Toggle Success</button>
+		<!-- v-if，v-else-if为假是在html中不占位不显示而-v-show不管为true和false都占位 -->
+		<p v-if="error">网络连接错误：404</p>
+		<p v-else-if="success">网络连接成功：200</p>
+		<p v-show="error">网络连接错误：404</p>
+		<p v-show="success">网络连接成功：200</p>
+		<h1> v-for 循环</h1>
+		<!-- 数组下标获取 -->
+		<!-- {{characters[0]}}
+		{{characters[1]}}
+		{{characters[2]}} -->
+		<!-- 数组遍历 -->
+		<ul>
+			<li v-for="a in characters">
+				{{a}}
+			</li>
+		</ul>
+		<ul>
+			<!-- index是数组下标 -->
+			<li v-for="(b,index) in users">
+				{{index}}. {{b.name}} - {{b.age}}
+			</li>
+		</ul>
+		<!-- template可以解决for循环div时多余出来的div容器，里面只有类似于下面的h3和p标签 -->
+		<template v-for="(b,index) in users">
+			<h3>{{index}}.{{b.name}}</h3>
+			<p>Age-{{b.age}}</p>
+		</template>
+		<template v-for="(b,index) in users">
+			<div v-for="(val,key) in b">
+				<p>{{key}} - {{val}}</p>
+			</div>
+		</template>
+	</div>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
